@@ -57,3 +57,9 @@
   margin: 0 0 10px 0;
   font-size: 18px;
 }
+
+
+.misspelled {
+  color: red; /* Highlight misspelled words in red */
+  font-weight: bold; /* Optional: Make the misspelled words bold */
+}

@@ -5,6 +5,7 @@ const MalChecker = () => {
   const [inputText, setInputText] = useState(""); // To store user input
   const [correction, setCorrection] = useState(""); // To store corrections from the API
   const [suggestions, setSuggestions] = useState([]); // To store word suggestions
+  const [misspelledWords, setMisspelledWords] = useState([]); // To store misspelled words
 
   // Function to handle text input changes
   const handleInputChange = (e) => {
@@ -34,8 +35,23 @@ const MalChecker = () => {
       .then((response) => response.json())
       .then((data) => {
         setCorrection(data.correction || "No corrections needed."); // Update correction with backend response
+        setMisspelledWords(data.misspelledWords || []); // Assuming the backend returns an array of misspelled words
       })
       .catch((error) => console.error("Error verifying text:", error));
+  };
+
+  // Function to highlight misspelled words in the input text
+  const highlightMisspelled = (text) => {
+    let highlightedText = text;
+    misspelledWords.forEach((word) => {
+      // Use a regular expression to replace the misspelled word with a span tag that applies the red color
+      const regEx = new RegExp(`\\b${word}\\b`, "gi");
+      highlightedText = highlightedText.replace(
+        regEx,
+        (match) => `<span class="misspelled">${match}</span>`
+      );
+    });
+    return highlightedText;
   };
 
   return (
@@ -45,6 +61,7 @@ const MalChecker = () => {
         placeholder="Enter or paste text here ....."
         value={inputText}
         onChange={handleInputChange}
+        onKeyDown={(e) => e.key === "Enter" && handleVerify()} // Pressing Enter triggers Verify
         className="text-area"
       />
       {suggestions.length > 0 && (
@@ -66,6 +83,13 @@ const MalChecker = () => {
           <p>{correction}</p>
         </div>
       )}
+      {/* Render the input text with highlighted misspelled words */}
+      <div
+        className="highlighted-text"
+        dangerouslySetInnerHTML={{
+          __html: highlightMisspelled(inputText),
+        }}
+      ></div>
     </div>
   );
 };
