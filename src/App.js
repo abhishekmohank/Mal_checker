@@ -56,7 +56,7 @@ const MalChecker = () => {
 
   return (
     <div className="container">
-      <h1>Mal Checker</h1>
+      <h1>Mal_Checker</h1>
       <textarea
         placeholder="Enter or paste text here ....."
         value={inputText}
