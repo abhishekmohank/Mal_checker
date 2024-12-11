@@ -14,7 +14,7 @@ const MalChecker = () => {
 
     // API call to predict the next word based on the user's input
     if (text.length > 0) {
-      fetch(`YOUR_BACKEND_API_URL_FOR_PREDICTION?text=${text}`) // Replace with the backend API for word prediction
+      fetch(`http://127.0.0.1:8000/predict`) // Replace with the backend API for word prediction
         .then((response) => response.json())
         .then((data) => setSuggestions(data.suggestions)) // Update suggestions with data from backend
         .catch((error) => console.error("Error fetching suggestions:", error));
@@ -25,7 +25,7 @@ const MalChecker = () => {
 
   // Function to handle grammar/spell check when "Verify" is clicked
   const handleVerify = () => {
-    fetch("YOUR_BACKEND_API_URL_FOR_GRAMMAR_CHECK", { // Replace with the backend API for grammar check
+    fetch(`http://127.0.0.1:8000/predict`, { // Replace with the backend API for grammar check
       method: "POST",
       headers: {
         "Content-Type": "application/json", // Specify the content type
